@@ -33,6 +33,18 @@ fun Application.configureRouting() {
                                 onChange = "form.submit();"
                             }
                         }
+
+                        form(
+                            encType = FormEncType.multipartFormData,
+                            action = "/convert",
+                            method = FormMethod.post
+                        ) {
+                            input(type = InputType.file) {
+                                id = "convert-image"
+                                name = "convert-image"
+                                onChange = "form.submit();"
+                            }
+                        }
                     }
                 }
             }
