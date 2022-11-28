@@ -50,7 +50,7 @@ fun Application.configureRouting() {
                     part.dispose()
                 }
 
-                val suppliedFile = File.createTempFile("", "")
+                val suppliedFile = File.createTempFile("Test", "Test")
                 val byteArray = byteArrayOutputStream.toByteArray()
 
                 val fileOutputStream = FileOutputStream(suppliedFile)
@@ -59,13 +59,24 @@ fun Application.configureRouting() {
                 fileOutputStream.close()
 
                 if (isPng(byteArray)) {
-                    val responseFile = File.createTempFile("", "")
+                    val responseFile = File.createTempFile("Test_JPG", "Test_JPG")
                     ImageIO.write(ImageIO.read(suppliedFile), "JPEG", responseFile)
 
                     call.response.header(
                         HttpHeaders.ContentDisposition,
-                        ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName, "converted.jpg")
-                            .toString()
+                        ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName,
+                            "converted_jpg.jpg").toString()
+                    )
+                    call.respondFile(responseFile)
+                }
+                else if (isJpg(byteArray)) {
+                    val responseFile = File.createTempFile("Test_PNG", "Test_PNG")
+                    ImageIO.write(ImageIO.read(suppliedFile), "PNG", responseFile)
+
+                    call.response.header(
+                        HttpHeaders.ContentDisposition,
+                        ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName,
+                            "converted_png.png").toString()
                     )
                     call.respondFile(responseFile)
                 }
@@ -79,6 +90,17 @@ private fun isPng(byteArray: ByteArray): Boolean {
 
     for (i in pngMagicBytes.indices) {
         if (byteArray[i] != pngMagicBytes[i])
+            return false
+    }
+
+    return true
+}
+
+private fun isJpg(byteArray: ByteArray): Boolean {
+    val jpgMagicBytes = listOf(0xFF, 0xD8, 0xFF, 0xE0).map { it.toByte() }
+
+    for (i in jpgMagicBytes.indices) {
+        if (byteArray[i] != jpgMagicBytes[i])
             return false
     }
 
