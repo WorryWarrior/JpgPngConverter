@@ -74,23 +74,32 @@ fun Application.configureRouting() {
                     val responseFile = File.createTempFile("Test_JPG", "Test_JPG")
                     ImageIO.write(ImageIO.read(suppliedFile), "JPEG", responseFile)
 
-                    call.response.header(
-                        HttpHeaders.ContentDisposition,
-                        ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName,
-                            "converted_jpg.jpg").toString()
-                    )
-                    call.respondFile(responseFile)
+                    if (ImageIO.read(responseFile) != null) {
+                        call.response.header(
+                            HttpHeaders.ContentDisposition,
+                            ContentDisposition.Attachment.withParameter(
+                                ContentDisposition.Parameters.FileName,
+                                "converted_jpg.jpg"
+                            ).toString()
+                        )
+
+                        call.respondFile(responseFile)
+                    }
                 }
                 else if (isJpg(byteArray)) {
                     val responseFile = File.createTempFile("Test_PNG", "Test_PNG")
                     ImageIO.write(ImageIO.read(suppliedFile), "PNG", responseFile)
 
-                    call.response.header(
-                        HttpHeaders.ContentDisposition,
-                        ContentDisposition.Attachment.withParameter(ContentDisposition.Parameters.FileName,
-                            "converted_png.png").toString()
-                    )
-                    call.respondFile(responseFile)
+                    if (ImageIO.read(responseFile) != null) {
+                        call.response.header(
+                            HttpHeaders.ContentDisposition,
+                            ContentDisposition.Attachment.withParameter(
+                                ContentDisposition.Parameters.FileName,
+                                "converted_png.png"
+                            ).toString()
+                        )
+                        call.respondFile(responseFile)
+                    }
                 }
                 else {
                     call.respondText("Invalid file")
