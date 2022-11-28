@@ -80,6 +80,9 @@ fun Application.configureRouting() {
                     )
                     call.respondFile(responseFile)
                 }
+                else {
+                    call.respondText("Invalid file")
+                }
             }
         }
     }
