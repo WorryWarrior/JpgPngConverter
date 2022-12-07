@@ -1,4 +1,9 @@
 # Jpg Png Converter
+Master:
+[![Tests](https://github.com/WorryWarrior/JpgPngConverter/actions/workflows/gradle-tests.yml/badge.svg?branch=master)](https://github.com/WorryWarrior/JpgPngConverter/actions/workflows/gradle-tests.yml) 
+
+Develop:
+[![Tests](https://github.com/WorryWarrior/JpgPngConverter/actions/workflows/gradle-tests.yml/badge.svg?branch=develop)](https://github.com/WorryWarrior/JpgPngConverter/actions/workflows/gradle-tests.yml) 
 
 A converter, which takes a number of images, converts `.jpg` files into `.png` and vice versa via HTTP POST request and responds with a number of converted images.
 
